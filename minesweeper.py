@@ -4,7 +4,7 @@ import json
 import time
 import struct
 
-def pressed(btn_num):
+def left(btn_num):
     global recived
     global btns
     btns[btn_num]["state"] = "disabled"
@@ -20,6 +20,10 @@ def pressed(btn_num):
     s = f.read(n).decode('ascii')           # Read str
     recived = s
     f.seek(0)
+
+def right(btn_num):
+    print("right")
+    return True
 
 f = open(r'\\.\pipe\NPtest', 'r+b', 0)
 i = 1
@@ -52,8 +56,12 @@ for x in range(boardsize[0]):
         btn_nr += 1
         print(btn_nr)
 
-        btns.append(tk.Button(text='-', command=lambda x=btn_nr: pressed(x)))
+        btns.append(tk.Button(text=s[, height=1, width=1))
+
         btns[btn_nr].grid(row=x, column=y)
+        btns[btn_nr].bind("<Button-1>", lambda e,c=btn_nr:left(c))
+        btns[btn_nr].bind("<Button-2>", lambda e,c=btn_nr:right(c))
+        btns[btn_nr].bind("<Button-3>", lambda e,c=btn_nr:right(c))
 
 master.mainloop()
 

@@ -21,6 +21,7 @@ namespace ConsoleApp1
         public static int fieldsclear = 0;
         public static List<List<int>> fields_opened = new();
         public static List<List<int>> flaglist = new();
+        public static List<List<int>> nums = new();
         public static List<ConsoleColor> colors = new()
         {
             ConsoleColor.Gray,
@@ -101,6 +102,7 @@ namespace ConsoleApp1
                         }
                         Console.SetCursorPosition((x - j) * 2, y - i);
                         Console.ForegroundColor = Global_vars.colors[Int32.Parse(tempstorage)];
+                        Global_vars.nums[x - j][y - i] = Int32.Parse(tempstorage);
                         Console.Write(tempstorage);
                         Global_vars.fields_opened[y - i][x - j] = 1;
                     }
@@ -287,6 +289,7 @@ namespace ConsoleApp1
             public List<List<int>> Flaglist { set; get; }
             public List<List<int>> Fields_opened { set; get; }
             public List<List<int>> CoordinateList { set; get; }
+            public List<List<int>> nums { set; get; }
 
         }
 
@@ -354,10 +357,6 @@ namespace ConsoleApp1
 
         static bool Buttonpress(int x, int y)
         {
-            //TODO: return with jsontest
-            while (!Keyboard.IsKeyUp(Key.Space))
-            {
-            }
             string current_pos = Checkpos(Global_vars.jsontransfer["cnl"], x, y);
 
             if (current_pos == "0")
@@ -411,7 +410,7 @@ namespace ConsoleApp1
         [STAThread]
         static void Main(string[] args)
         {
-            var server = new NamedPipeServerStream("NPtest");
+            var server = new NamedPipeServerStream("NPtest", PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
 
             Console.WriteLine("Waiting for connection...");
             server.WaitForConnection();
@@ -494,7 +493,7 @@ namespace ConsoleApp1
         start:
             while (true)
             {
-                ipc_update(br, bw);
+                ipc_update(br, bw);/*
                 while (Keyboard.IsKeyDown(Key.Up))
                 {
                     int consoley = Console.CursorTop;
@@ -662,7 +661,7 @@ namespace ConsoleApp1
                 while (Keyboard.IsKeyDown(Key.Escape))
                 {
                     goto End;
-                }
+                }*/
             }
         Endwhile:
             Console.ResetColor();
